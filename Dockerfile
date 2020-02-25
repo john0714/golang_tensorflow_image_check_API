@@ -22,7 +22,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
 ENV GOLANG_VERSION 1.13.6
-RUN uname -m
 RUN set -eux; \
 	\
 	dpkgArch="$(dpkg --print-architecture)"; \
@@ -74,7 +73,7 @@ RUN mkdir -p /model && \
 RUN adduser --disabled-password --gecos '' api
 USER api
 
-WORKDIR "/go/goTensorflowImageChecker/src/tensorFlowImageChecker"
+WORKDIR "/go/goProject/src/golangTensorflowAPI"
 COPY . .
 RUN go install -v ./...
 CMD [ "app" ]
