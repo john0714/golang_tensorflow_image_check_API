@@ -77,4 +77,4 @@ USER api
 WORKDIR "/go/goProject/src/golangTensorflowAPI"
 COPY . .
 RUN go install -v ./...
-CMD [ "app" ]
+CMD [ "tensorflowAPI" ]
