@@ -74,7 +74,7 @@ RUN mkdir -p /model && \
 RUN adduser --disabled-password --gecos '' api
 USER api
 
-WORKDIR "/go/goTensorflowImageChecker/src/tensorFlowImageChecker"
+WORKDIR "/go/goProject/src/golangTensorflowAPI"
 COPY . .
 RUN go install -v ./...
 CMD [ "app" ]
