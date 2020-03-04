@@ -1,7 +1,7 @@
 version: '3.3'
 services:
-    tensorflowAPI:
-        container_name: 'tensorflowAPI'
+      api:
+        container_name: 'api'
         build: '.'
         ports:
             - '8080:8080'
