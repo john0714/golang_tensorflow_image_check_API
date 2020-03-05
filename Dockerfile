@@ -3,8 +3,10 @@ FROM tensorflow/tensorflow
 
 # Install TensorFLow C library
 RUN curl -L \
-	"https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-linux-x86_64-1.3.0.tar.gz" | \
+	"https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-linux-x86_64-1.13.1.tar.gz" | \
 	tar -C "/usr/local" -xz
+	
+# Reset sharing library cache
 RUN ldconfig
 
 # Hide some warning
@@ -61,8 +63,8 @@ RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
 # install go packages in docker
 RUN go get github.com/tensorflow/tensorflow/tensorflow/go \
-    go get github.com/tensorflow/tensorflow/tensorflow/go/op \
-    go get github.com/julienschmidt/httprouter
+  github.com/tensorflow/tensorflow/tensorflow/go/op \
+  github.com/julienschmidt/httprouter
   
 # download Inception model in /model directory
 RUN mkdir -p /model && \
@@ -74,7 +76,12 @@ RUN mkdir -p /model && \
 RUN adduser --disabled-password --gecos '' api
 USER api
 
-WORKDIR "/go/goProject/src/golangTensorflowAPI"
+// Change directory
+WORKDIR "/go/src/app"
+
+// Copy file and directory from host to image(container already have that from volume option)
 COPY . .
 RUN go install -v ./...
-CMD [ "api" ]
+
+// set work command when docker container start(not when docker image build)
+CMD [ "app" ]
