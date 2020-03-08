@@ -2,7 +2,9 @@ version: '3.3'
 services:
       tensorflowapi:
         container_name: 'tensorflowapi'
-        build: './api'
+        build: 
+            context: './api'
+            dockerfile: ../Dockerfile
         ports:
             - '8080:8080'
         volumes:

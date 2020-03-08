@@ -78,12 +78,12 @@ RUN mkdir -p /model && \
 RUN adduser --disabled-password --gecos '' api
 USER api
 
-// Change directory
+# Change directory
 WORKDIR "/go/src/app"
 
-// Copy file and directory from host to image(container already have that from volume option)
+# Copy file and directory from host to image(container already have that from volume option)
 COPY . .
 RUN go install -v ./...
 
-// set work command when docker container start(not when docker image build)
+# set work command when docker container start(not when docker image build)
 CMD [ "app" ]
