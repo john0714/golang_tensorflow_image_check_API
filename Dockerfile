@@ -84,6 +84,8 @@ WORKDIR "/go/src/app"
 
 # Copy file and directory from host to image(container already have that from volume option)
 COPY . .
+
+# compile and run code(-v : print the names of packages as they are compiled)
 RUN go install -v ./...
 
 # set work command when docker container start(not when docker image build)
