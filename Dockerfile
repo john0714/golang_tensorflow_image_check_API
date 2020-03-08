@@ -69,6 +69,7 @@ RUN go get github.com/tensorflow/tensorflow/tensorflow/go \
   github.com/julienschmidt/httprouter
   
 # download Inception model in /model directory
+RUN apt-get update && apt-get install -y unzip zip
 RUN mkdir -p /model && \
   wget "https://storage.googleapis.com/download.tensorflow.org/models/inception5h.zip" -O /model/inception.zip && \
   unzip /model/inception.zip -d /model && \
