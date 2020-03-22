@@ -3,7 +3,7 @@ FROM tensorflow/tensorflow
 
 # Install TensorFLow C library
 RUN curl -L \
-	"https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-linux-x86_64-1.13.1.tar.gz" | \
+	"https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-cpu-linux-x86_64-1.15.0.tar.gz" | \
 	tar -C "/usr/local" -xz
 	
 # Reset sharing library cache
@@ -61,9 +61,12 @@ ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" "$GOPATH/pkg" && chmod -R 777 "$GOPATH"
 WORKDIR "/go/src/app"
-RUN go mod init
 
-# install go packages in docker
+# Tensorflow not support go.mod yet(2020-03-22)
+# ENV GO111MODULE="on"
+# RUN go mod init 
+
+# install go packages in docker - core_protos_go_proto error...
 RUN go get github.com/tensorflow/tensorflow/tensorflow/go \
   github.com/tensorflow/tensorflow/tensorflow/go/op \
   github.com/julienschmidt/httprouter
@@ -84,6 +87,12 @@ WORKDIR "/go/src/app"
 
 # Copy file and directory from host to image(container already have that from volume option)
 COPY . .
+
+RUN go env
+WORKDIR "/go/pkg/mod"
+RUN ls -al
+
+WORKDIR "/go/src/app"
 
 # compile and run code(-v : print the names of packages as they are compiled)
 RUN go install -v ./...
